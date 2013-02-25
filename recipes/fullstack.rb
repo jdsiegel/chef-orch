@@ -24,6 +24,7 @@ node['orch']['apps'].each do |app|
   app = {
     'name'         => app['name'],
     'user'         => app['user'],
+    'port'         => app.fetch('port') { 5000 },
     'ruby_version' => app['ruby_version'],
     'processes'    => app['processes'],
     'environment'  => app['environment']

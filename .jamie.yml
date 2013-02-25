@@ -26,12 +26,13 @@ suites:
       apps:
         - name: dummy_app
           user: vagrant
+          port: 8000
           ruby_version: 1.9.3-p327
           db_password: flargle
           db_type: postgres
           root_path: '/home/vagrant'
           servers:
-            - 'localhost:8080'
+            - 'localhost:8000'
           processes:
           -
             - all
