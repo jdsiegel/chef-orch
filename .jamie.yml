@@ -30,7 +30,7 @@ suites:
           ruby_version: 1.9.3-p327
           db_password: flargle
           db_type: postgres
-          root_path: '/home/vagrant'
+          root_path: '/home/vagrant/app/current/public'
           servers:
             - 'localhost:8000'
           processes:
