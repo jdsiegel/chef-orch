@@ -32,10 +32,6 @@ suites:
           db_type: postgres
           servers:
             - 'localhost:8000'
-          processes:
-          -
-            - all
-            - 1
           environment:
           -
             - RAILS_ENV
