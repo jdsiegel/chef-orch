@@ -1,6 +1,6 @@
 Berksfile.lock
 bin
 .bundle
-.jamie/
-.jamie.local.yml
 .vagrant
+.kitchen/
+.kitchen.local.yml
