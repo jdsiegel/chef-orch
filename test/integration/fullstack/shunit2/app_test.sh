@@ -9,6 +9,7 @@ test_static_files_are_served()
 {
   local output=$(curl -s http://localhost/robots.txt)
   IFS=$'\n' lines=($output)
+  unset IFS
 
   assertEquals "User-Agent: *" "${lines[0]}"
 }
