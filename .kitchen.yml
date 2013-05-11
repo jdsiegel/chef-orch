@@ -39,6 +39,57 @@ suites:
           ruby_version: 1.9.3-p327
           db_password: flargle
           db_type: postgres
+          ssl:
+            key: |
+              -----BEGIN RSA PRIVATE KEY-----
+              MIIEpAIBAAKCAQEAn2PLP1PWfhV/gXQlRCm5bW4jGhCRVOCHwspy97ZaIQVo0M6b
+              RCjJ8LlryMOlpjfeonxXWhTzGcyemZa8Zp5Lp3vQcdPXGSJFe1LHKxWu7ahL3iW/
+              sgKk69wDsHGtwqQhXQ4cJSngND9dxE7Y0fgJhpgrBbGcRxFHD8bDJ5M/KhgiwQwJ
+              tVv0DLrUR5iNNBTicFpgM3IZnM1kRw/5kGPdt/KMWBnserJw55tcFL/R0Oc4GA0y
+              UhEXYiDL0s3mzOf62ggtclrUp7gzXoT/iFHGFvrbPuChuyoHxO/tiqazCUGnHilm
+              GPXYYEBUS1GgDSpq4exYENwtAMb94Us/okZsbQIDAQABAoIBADzldM7iKi4L6qY8
+              CMztIBJGJRUdRVlnW5c5oAkyW2cIWQ6GEV5OMzFMtniC/3PtHpt35Cvfmy29Ns85
+              fwu56O+5Z19F74WDyYYfj0bPxwC37xyV0ZKiXf5bFfHAzQFzkeeqr2gngqiTmTCa
+              a051dLY+xxkqzal9WWgWqZMiN9zNt4aUCK4GwbZQ1JXDW24GZmMIakUshOAPeLcW
+              j2mK+KO2Df9keqILvV0e6kyQD8nHi5R3yRL79MwetoaQMhV6v4Q0tAYwMpyYLylF
+              Y5f5oZQlMMH3I8fRkVdSdvfMNFdp6HMuptGvtqfpyJV1+8p3idC29naTMu7wkqHp
+              1uz0DoUCgYEAyuOTq516zZosiZVj4TaNa5BcxO61/5tgXlxfPdOQJhqLEGrrverQ
+              q4pAlJ6t+gM232rLQPSEHMIk47AeLEYrmDDoNIhWoOafuLRKrCNoOY7gsJG28E78
+              ID6MqXAJVfDd6BFpVmlH7eIpkEZJ8duZO3Enne2HPwSiQkxi5RyvnBsCgYEAyR0p
+              CVhzO+1u4m92t5x2uS8I6UWgXPzU7BXILAb9BUJxqPV3nFpN2F9i5yk+FDA28T1s
+              ViA0wgYYu2Ro1BRcdALmaJewqdq6uiQ0ki0l5VcMsUEGLWO9rGFEJrpC8NOUSAAC
+              kZbuhKzO78lLmKL/5g9V5YX8sN04hUl4Qj3okhcCgYAoum6WcNKKG3z9UYPvXegd
+              w6kbz1+xpBtAVgK4gpPZUlLARPZ19YFWLjawnvoFykdlqiaLL4qly0NkgaJM+Pkf
+              YBH9GbFqM2G0zlx/Gcx+YXQxfc7fhruOLYBHMzpsiiHByF0A/7l0w4XcdH+7kX29
+              NQXi6h/QQrnf3T2tCIkoKQKBgQC78jJtd2mJcaSUnFI32VLiUOBlEBqDjAx37Qs6
+              ifVfOu75VRzI02O4d7v4B4TqXPybiil6e3KSeBwY1AdbWwPjruogiNIiijTCzB8N
+              FIA7yZQk+n2JYZLaS7Pi9WKlqTUD7G56HLEe8FgbouSw6nN3TpGZhBPYPYUamsR2
+              M2DrVQKBgQCtkFNCQE4M2d3wSBLLCkr1IC/uq+ZZ81vDCqW9S92NwOVge0b+og1p
+              tj47yYlExEVostCda9YxHndqoiRzERQ44n+yLeUfwCGMog8dQd/KMqAixk8SiUWE
+              tNQDZY7r9YAGKudI+Loehvf/oqAYFx1Ao51t4o7d3lWy4baGu6mA8Q==
+              -----END RSA PRIVATE KEY-----
+            cert: |
+              -----BEGIN CERTIFICATE-----
+              MIIDbjCCAlYCCQDECqFKxrtPITANBgkqhkiG9w0BAQUFADB5MQswCQYDVQQGEwJD
+              QTEQMA4GA1UECBMHQWxiZXJ0YTERMA8GA1UEBxMIRWRtb250b24xEDAOBgNVBAoT
+              B1d1YiBXdWIxEjAQBgNVBAMTCWxvY2FsaG9zdDEfMB0GCSqGSIb3DQEJARYQd3Vi
+              QGV4YW1wbGUudGVzdDAeFw0xMjEwMjEwNzM1MjhaFw0xMzEwMjEwNzM1MjhaMHkx
+              CzAJBgNVBAYTAkNBMRAwDgYDVQQIEwdBbGJlcnRhMREwDwYDVQQHEwhFZG1vbnRv
+              bjEQMA4GA1UEChMHV3ViIFd1YjESMBAGA1UEAxMJbG9jYWxob3N0MR8wHQYJKoZI
+              hvcNAQkBFhB3dWJAZXhhbXBsZS50ZXN0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+              MIIBCgKCAQEAn2PLP1PWfhV/gXQlRCm5bW4jGhCRVOCHwspy97ZaIQVo0M6bRCjJ
+              8LlryMOlpjfeonxXWhTzGcyemZa8Zp5Lp3vQcdPXGSJFe1LHKxWu7ahL3iW/sgKk
+              69wDsHGtwqQhXQ4cJSngND9dxE7Y0fgJhpgrBbGcRxFHD8bDJ5M/KhgiwQwJtVv0
+              DLrUR5iNNBTicFpgM3IZnM1kRw/5kGPdt/KMWBnserJw55tcFL/R0Oc4GA0yUhEX
+              YiDL0s3mzOf62ggtclrUp7gzXoT/iFHGFvrbPuChuyoHxO/tiqazCUGnHilmGPXY
+              YEBUS1GgDSpq4exYENwtAMb94Us/okZsbQIDAQABMA0GCSqGSIb3DQEBBQUAA4IB
+              AQCa+kGVCt63Tgs4rR8F+ZJHPnMiOZUVkHnqmu6O2gpghoBa81FGT0h+NMP7Xup2
+              nMlOy9NcyeMVIMhCfGz3wdDjvXWby8mIGO5t+SyOLHWqCw1z8FQpRcabPiiI1hzT
+              aD+1R7fobrKvWn8qDuiiJZs6s/7+DIUymYJ0B43svKFxzxeXUjKeXN/jbZg3mKJ3
+              zbNhYQA7ztv/8xBpij76L6YmY0Dv8L/say/e447q3El0sP9WUmTJugnaiCDSA0kJ
+              1vmzx9modKX5/eKPUeanHa68voYcMZbgJSzeaB5UaKNGEmVXELWKXaxxB3228Kp7
+              /AysBU5rwVMHei4CnGAs7d+L
+              -----END CERTIFICATE-----
           servers:
             - 'localhost:8000'
           environment:
