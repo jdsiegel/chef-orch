@@ -110,7 +110,7 @@ Here's the quickest way to try out the orch cookbook:
   ```
 
 8. And we need a users data bag for the deploy user. Create the
-   `data\_bags/users` directory and add `deploy.json` with the
+   `data_bags/users` directory and add `deploy.json` with the
    following:
 
   ```
@@ -122,7 +122,7 @@ Here's the quickest way to try out the orch cookbook:
     ]
   }
   ```
-   Don't forget to put your public key in the `ssh\_keys` array.
+   Don't forget to put your public key in the `ssh_keys` array.
 
 9. knife solo boostrap <node> nodes/yourserver.json
 
