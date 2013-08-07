@@ -36,70 +36,74 @@ Here's the quickest way to try out the orch cookbook:
 - create your kitchen with `knife solo init mykitchen`
 - `cd mykitchen` and edit your Berksfile:
 
-    site :opscode
+```
+site :opscode
 
-    cookbook 'apt'
-    cookbook 'platform_packages'
-    cookbook 'user'
-    cookbook 'sudo'
-    cookbook 'runit'
-    cookbook 'orch', :git => 'https://github.com/jdsiegel/chef-orch.git'
-    cookbook 'orch_db', :git => 'https://github.com/jdsiegel/chef-orch_db.git'
-    cookbook 'orch_web', :git => 'https://github.com/jdsiegel/chef-orch_web.git'
-    cookbook 'orch_app', :git => 'https://github.com/jdsiegel/chef-orch_app.git'
+cookbook 'apt'
+cookbook 'platform_packages'
+cookbook 'user'
+cookbook 'sudo'
+cookbook 'runit'
+cookbook 'orch', :git => 'https://github.com/jdsiegel/chef-orch.git'
+cookbook 'orch_db', :git => 'https://github.com/jdsiegel/chef-orch_db.git'
+cookbook 'orch_web', :git => 'https://github.com/jdsiegel/chef-orch_web.git'
+cookbook 'orch_app', :git => 'https://github.com/jdsiegel/chef-orch_app.git'
+```
 
 - create a node json file for your server. Let's call it
   `nodes/myserver.json`
 
-    {
-      "run_list": [
-        "recipe[platform_packages]", 
-        "recipe[sudo]", 
-        "recipe[user::data_bag]", 
-        "recipe[orch::fullstack]"
-      ],
+```
+{
+  "run_list": [
+    "recipe[platform_packages]", 
+    "recipe[sudo]", 
+    "recipe[user::data_bag]", 
+    "recipe[orch::fullstack]"
+  ],
+  "users": ["deploy"],
+  "authorization": {
+    "sudo": {
       "users": ["deploy"],
-      "authorization": {
-        "sudo": {
-          "users": ["deploy"],
-          "passwordless": "true"
-        }
-      },
-      "platform_packages": {
-        "pkgs": [
-          { "name": "curl" }
-        ]
-      },
-      "postgresql": {
-        "password": {
-          "postgres": "masterhippo35"
-        }
-      },
-      "nginx": {
-        "version": "1.2.9"
-      },
-      "ruby_build": {
-        "upgrade": true
-      },
-      "orch": {
-        "apps": [
-          {
-            "name": "cashout",
-            "user": "deploy",
-            "port": 8000,
-            "ruby_version": "2.0.0-p247",
-            "db_password": "turkeymonkey2000",
-            "db_type": "postgres",
-            "servers": [ "localhost:8000" ],
-            "processes": [["all", 1]],
-            "environment": [
-              ["RAILS_ENV", "staging"],
-              ["RACK_ENV", "staging"]
-            ]
-          }
+      "passwordless": "true"
+    }
+  },
+  "platform_packages": {
+    "pkgs": [
+      { "name": "curl" }
+    ]
+  },
+  "postgresql": {
+    "password": {
+      "postgres": "masterhippo35"
+    }
+  },
+  "nginx": {
+    "version": "1.2.9"
+  },
+  "ruby_build": {
+    "upgrade": true
+  },
+  "orch": {
+    "apps": [
+      {
+        "name": "cashout",
+        "user": "deploy",
+        "port": 8000,
+        "ruby_version": "2.0.0-p247",
+        "db_password": "turkeymonkey2000",
+        "db_type": "postgres",
+        "servers": [ "localhost:8000" ],
+        "processes": [["all", 1]],
+        "environment": [
+          ["RAILS_ENV", "staging"],
+          ["RACK_ENV", "staging"]
         ]
       }
-    }
+    ]
+  }
+}
+```
 
 - knife solo boostrap <node> nodes/yourserver.json
 
