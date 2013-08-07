@@ -28,84 +28,103 @@ Getting Started
 
 Here's the quickest way to try out the orch cookbook:
 
-- have a rails app that's ready for deployment
-- spin up a new ubuntu server. You can use Vagrant if you like, but make
+1. have a rails app that's ready for deployment
+
+2. spin up a new ubuntu server. You can use Vagrant if you like, but make
   sure you add a Host section in your ssh config
-- `gem install berkshelf`
-- `gem install knife-solo`
-- create your kitchen with `knife solo init mykitchen`
-- `cd mykitchen` and edit your Berksfile:
+3. `gem install berkshelf`
 
-```
-site :opscode
+4. `gem install knife-solo`
 
-cookbook 'apt'
-cookbook 'platform_packages'
-cookbook 'user'
-cookbook 'sudo'
-cookbook 'runit'
-cookbook 'orch', :git => 'https://github.com/jdsiegel/chef-orch.git'
-cookbook 'orch_db', :git => 'https://github.com/jdsiegel/chef-orch_db.git'
-cookbook 'orch_web', :git => 'https://github.com/jdsiegel/chef-orch_web.git'
-cookbook 'orch_app', :git => 'https://github.com/jdsiegel/chef-orch_app.git'
-```
+5. create your kitchen with `knife solo init mykitchen`
 
-- create a node json file for your server. Let's call it
+6. `cd mykitchen` and edit your Berksfile:
+
+  ```
+  site :opscode
+
+  cookbook 'apt'
+  cookbook 'platform_packages'
+  cookbook 'user'
+  cookbook 'sudo'
+  cookbook 'runit'
+  cookbook 'orch', :git => 'https://github.com/jdsiegel/chef-orch.git'
+  cookbook 'orch_db', :git => 'https://github.com/jdsiegel/chef-orch_db.git'
+  cookbook 'orch_web', :git => 'https://github.com/jdsiegel/chef-orch_web.git'
+  cookbook 'orch_app', :git => 'https://github.com/jdsiegel/chef-orch_app.git'
+  ```
+
+7. create a node json file for your server. Let's call it
   `nodes/myserver.json`
 
-```
-{
-  "run_list": [
-    "recipe[platform_packages]", 
-    "recipe[sudo]", 
-    "recipe[user::data_bag]", 
-    "recipe[orch::fullstack]"
-  ],
-  "users": ["deploy"],
-  "authorization": {
-    "sudo": {
-      "users": ["deploy"],
-      "passwordless": "true"
-    }
-  },
-  "platform_packages": {
-    "pkgs": [
-      { "name": "curl" }
-    ]
-  },
-  "postgresql": {
-    "password": {
-      "postgres": "masterhippo35"
-    }
-  },
-  "nginx": {
-    "version": "1.2.9"
-  },
-  "ruby_build": {
-    "upgrade": true
-  },
-  "orch": {
-    "apps": [
-      {
-        "name": "cashout",
-        "user": "deploy",
-        "port": 8000,
-        "ruby_version": "2.0.0-p247",
-        "db_password": "turkeymonkey2000",
-        "db_type": "postgres",
-        "servers": [ "localhost:8000" ],
-        "processes": [["all", 1]],
-        "environment": [
-          ["RAILS_ENV", "staging"],
-          ["RACK_ENV", "staging"]
-        ]
+  ```
+  {
+    "run_list": [
+      "recipe[platform_packages]", 
+      "recipe[sudo]", 
+      "recipe[user::data_bag]", 
+      "recipe[orch::fullstack]"
+    ],
+    "users": ["deploy"],
+    "authorization": {
+      "sudo": {
+        "users": ["deploy"],
+        "passwordless": "true"
       }
+    },
+    "platform_packages": {
+      "pkgs": [
+        { "name": "curl" }
+      ]
+    },
+    "postgresql": {
+      "password": {
+        "postgres": "masterhippo35"
+      }
+    },
+    "nginx": {
+      "version": "1.2.9"
+    },
+    "ruby_build": {
+      "upgrade": true
+    },
+    "orch": {
+      "apps": [
+        {
+          "name": "cashout",
+          "user": "deploy",
+          "port": 8000,
+          "ruby_version": "2.0.0-p247",
+          "db_password": "turkeymonkey2000",
+          "db_type": "postgres",
+          "servers": [ "localhost:8000" ],
+          "processes": [["all", 1]],
+          "environment": [
+            ["RAILS_ENV", "staging"],
+            ["RACK_ENV", "staging"]
+          ]
+        }
+      ]
+    }
+  }
+  ```
+
+8. And we need a users data bag for the deploy user. Create the
+   `data\_bags/users` directory and add `deploy.json` with the
+   following:
+
+  ```
+  {
+    "id": "deploy",
+    "username": "deploy",
+    "ssh_keys": [
+      "<your public ssh key here>"
     ]
   }
-}
-```
+  ```
+   Don't forget to put your public key in the `ssh\_keys` array.
 
-- knife solo boostrap <node> nodes/yourserver.json
+9. knife solo boostrap <node> nodes/yourserver.json
 
 Your server is ready for deploy!
 
