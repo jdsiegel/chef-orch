@@ -4,7 +4,7 @@ Overview
 Orch is an opinionated cookbook that provisions all the neccessary bits
 and pieces to run any rails or rack app with minimum fuss. You can have
 one or more servers ready for an app deploy by setting a few node
-attributes. No custom cookbook required.
+attributes. No custom app-specific cookbook is required.
 
 Features
 ========
@@ -26,15 +26,81 @@ configuration. Something 80 percent something 20 something.
 Getting Started
 ===============
 
-Here's the quickiest way to try out the orch cookbook:
+Here's the quickest way to try out the orch cookbook:
 
-*instructions here*
+- have a rails app that's ready for deployment
+- spin up a new ubuntu server. You can use Vagrant if you like, but make
+  sure you add a Host section in your ssh config
+- `gem install berkshelf`
+- `gem install knife-solo`
+- create your kitchen with `knife solo init mykitchen`
+- `cd mykitchen` and edit your Berksfile:
 
-- have a new ubuntu 12.04 server ready
-- gem install knife-solo (or pre-release alternative)
-- create your kitchen with knife solo init 
-- create a node file for your server
-    * show sample attribute list
+    site :opscode
+
+    cookbook 'apt'
+    cookbook 'platform_packages'
+    cookbook 'user'
+    cookbook 'sudo'
+    cookbook 'runit'
+    cookbook 'orch', :git => 'https://github.com/jdsiegel/chef-orch.git'
+    cookbook 'orch_db', :git => 'https://github.com/jdsiegel/chef-orch_db.git'
+    cookbook 'orch_web', :git => 'https://github.com/jdsiegel/chef-orch_web.git'
+    cookbook 'orch_app', :git => 'https://github.com/jdsiegel/chef-orch_app.git'
+
+- create a node json file for your server. Let's call it
+  `nodes/myserver.json`
+
+    {
+      "run_list": [
+        "recipe[platform_packages]", 
+        "recipe[sudo]", 
+        "recipe[user::data_bag]", 
+        "recipe[orch::fullstack]"
+      ],
+      "users": ["deploy"],
+      "authorization": {
+        "sudo": {
+          "users": ["deploy"],
+          "passwordless": "true"
+        }
+      },
+      "platform_packages": {
+        "pkgs": [
+          { "name": "curl" }
+        ]
+      },
+      "postgresql": {
+        "password": {
+          "postgres": "masterhippo35"
+        }
+      },
+      "nginx": {
+        "version": "1.2.9"
+      },
+      "ruby_build": {
+        "upgrade": true
+      },
+      "orch": {
+        "apps": [
+          {
+            "name": "cashout",
+            "user": "deploy",
+            "port": 8000,
+            "ruby_version": "2.0.0-p247",
+            "db_password": "turkeymonkey2000",
+            "db_type": "postgres",
+            "servers": [ "localhost:8000" ],
+            "processes": [["all", 1]],
+            "environment": [
+              ["RAILS_ENV", "staging"],
+              ["RACK_ENV", "staging"]
+            ]
+          }
+        ]
+      }
+    }
+
 - knife solo boostrap <node> nodes/yourserver.json
 
 Your server is ready for deploy!
