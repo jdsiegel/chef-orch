@@ -30,8 +30,9 @@ Here's the quickest way to try out the orch cookbook:
 
 1. have a rails app that uses postgresql that's ready for deployment
 
-2. spin up a new ubuntu server. You can use Vagrant if you like, but make
-  sure you add a Host section in your ssh config
+2. spin up a new ubuntu 12.04 LTS server. You can use Vagrant if you
+   like, but make sure you add a Host section in your ssh config
+
 3. `gem install berkshelf`
 
 4. `gem install knife-solo`
@@ -132,19 +133,28 @@ Deploying your app
 ------------------
 
 Now you can deploy with your favourite deployment tool. But first, you
-need to ensure three things:
+need to ensure fourt things:
 
 1. You use a login shell when executing commands on the server. This is
    needed for chruby to set the correct ruby path.
-2. You deploy to $HOME/app. Orch will look for a Procfile in
+2. You have a Procfile in your app's root directory that specifies some
+   web server
+3. You deploy to $HOME/app. Orch will look for the Procfile in
    $HOME/app/current to generate runit services.
-3. Your deployment tool knows to run bundler.
+4. Your deployment tool knows to run bundler.
 
-For capistrano, you can satistfy the first two points with the following
+For capistrano, you can satisfy points 1 and 3 with the following
 in your deploy.rb:
 
     default_run_options[:shell] = '/bin/bash -l'
     set :deploy_to, '/home/deploy/app'
+
+If you don't have a webserver yet, use `thin` for now. Add `thin` to
+your Gemfile and edit your Procfile:
+
+  ```
+  web: bundle exec thin -p $PORT start
+  ```
 
 If you are deploying a Rails app, you'll need to update the production
 section in your database.yml file:
@@ -173,7 +183,8 @@ app):
   script/rails c
   ```
 
-Next generate the web service with the `app-services` helper script so that nginx is happy:
+Next generate the web service with the `app-services` helper script so
+that nginx is happy:
 
   ```
   app-services
