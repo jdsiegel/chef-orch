@@ -166,15 +166,6 @@ real work happens.
 Attributes
 ==========
 
-### chruby (optional)
-
-A hash describing some options for installing chruby:
-
-* version        - the version of chruby
-* url            - the url of the chruby tarball
-* checksum       - the sha256 hash of the chruby tarball
-* force\_install - install chruby even if it's already installed
-
 ### apps
 
 A list of hashes describing one or more ruby apps that will run on this
