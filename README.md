@@ -209,24 +209,21 @@ Attributes
 A list of hashes describing one or more ruby apps that will run on this
 host. Each hash accepts the following:
 
-* name          - the app's name
+* name          - the app's name, also used for name of the database
 * user          - the app's user account
+* port          - the starting port number, set as the PORT env variable
+  for your foreman processes. Defaults to 5000
 * ruby\_version - the app's ruby version. It is compiled by
   ruby\_build
-* port          - the starting port number, set as the PORT env
-  variable for your foreman processes. Defaults to 5000
-* bundler\_version (optional) - A version of bundler specific to this
-  app
-
-### rubies\_path (optional)
-
-The path where rubies are placed. Defaults to /opt/rubies
-
-Usage
-=====
-
-* Add recipe[orch\_app] to the run list for your node and set the the
-  apps attribute with the list of apps.
+* db_type       - the database used. "mysql" or "postgres"
+* db_password   - the password for the app's specific database
+* servers       - a list of app servers and their port or unix socket.
+  This list is used by nginx to set the upstream servers.
+* processes     - a list of 2-element arrays that specify which
+  processes from the Procfile to use.
+* environment   - a list of 2-element arrays that specify the
+  environment variables that should be available to all services. Put
+  your API tokens and other secrets here.
 
 License and Author
 ==================
