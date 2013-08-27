@@ -137,7 +137,7 @@ need to ensure two things:
 1. You use a login shell when executing commands on the server. This is
    needed for chruby to set the correct ruby path.
 2. You deploy to $HOME/app. Orch will look for a Procfile in
-   $HOME/app/current to configure any runit services.
+   $HOME/app/current to generate runit services.
 
 For capistrano, you can handle both with the following in your deploy.rb:
 
