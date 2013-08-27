@@ -28,7 +28,7 @@ Getting Started
 
 Here's the quickest way to try out the orch cookbook:
 
-1. have a rails app that's ready for deployment
+1. have a rails app that uses postgresql that's ready for deployment
 
 2. spin up a new ubuntu server. You can use Vagrant if you like, but make
   sure you add a Host section in your ssh config
@@ -91,7 +91,7 @@ Here's the quickest way to try out the orch cookbook:
     "orch": {
       "apps": [
         {
-          "name": "cashout",
+          "name": "myapp",
           "user": "deploy",
           "port": 8000,
           "ruby_version": "2.0.0-p247",
@@ -100,8 +100,8 @@ Here's the quickest way to try out the orch cookbook:
           "servers": [ "localhost:8000" ],
           "processes": [["all", 1]],
           "environment": [
-            ["RAILS_ENV", "staging"],
-            ["RACK_ENV", "staging"]
+            ["RAILS_ENV", "production"],
+            ["RACK_ENV", "production"]
           ]
         }
       ]
@@ -132,17 +132,55 @@ Deploying your app
 ------------------
 
 Now you can deploy with your favourite deployment tool. But first, you
-need to ensure two things:
+need to ensure three things:
 
 1. You use a login shell when executing commands on the server. This is
    needed for chruby to set the correct ruby path.
 2. You deploy to $HOME/app. Orch will look for a Procfile in
    $HOME/app/current to generate runit services.
+3. Your deployment tool knows to run bundler.
 
-For capistrano, you can handle both with the following in your deploy.rb:
+For capistrano, you can satistfy the first two points with the following
+in your deploy.rb:
 
     default_run_options[:shell] = '/bin/bash -l'
     set :deploy_to, '/home/deploy/app'
+
+If you are deploying a Rails app, you'll need to update the production
+section in your database.yml file:
+
+  ```
+  production:
+    adapter: postgresql
+    database: myapp
+    username: deploy
+  ```
+
+Now you can deploy! For capistrano:
+
+  ```
+  cap deploy:setup
+  cap deploy:check
+  cap deploy:cold
+  ```
+
+Once the deploy finishes, you can check to make sure everything is
+working by sshing into the node and check the console (if it's a Rails
+app):
+
+  ```
+  cd ~/app/current
+  script/rails c
+  ```
+
+Next generate the web service with the `app-services` helper script so that nginx is happy:
+
+  ```
+  app-services
+  ```
+
+Your webserver should now be running and you can point a web browser to
+your server.
 
 Platform
 --------
