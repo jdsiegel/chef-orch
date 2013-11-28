@@ -7,7 +7,7 @@ test_app_is_running_on_port_80()
 
 test_app_is_running_on_ssl_port_443()
 {
-  local output=$(curl -s --cacert /etc/nginx/ssl/dummy_app.crt https://localhost | grep working | sed -e 's/^[[:space:]]*//g')
+  local output=$(curl -s -k --cacert /etc/nginx/ssl/dummy_app.crt https://localhost | grep working | sed -e 's/^[[:space:]]*//g')
 
   assertEquals "If you see this, the app is working." "$output"
 }
