@@ -5,7 +5,6 @@ node['orch']['apps'].each do |app|
     'name'           => app['name'],
     'root_path'      => app.fetch('root_path') { "/home/#{app['user']}/app/current/public" },
     'hostname'       => app['hostname'],
-    'port'           => app['port'],
     'servers'        => app['servers'],
     'ssl'            => app['ssl'],
     'asset_location' => app['asset_location']
